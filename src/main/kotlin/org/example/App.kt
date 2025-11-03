@@ -3,13 +3,10 @@
  */
 package org.example
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
+import io.github.cdimascio.dotenv.dotenv
 
 fun main() {
-    println(App().greeting)
+    val openaiKey = dotenv()["OPENAI_SECRET_KEY"]
+
+    println("hello your secret key is $openaiKey")
 }

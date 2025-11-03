@@ -16,6 +16,8 @@ dependencyLocking {
 }
 
 dependencies {
+    implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
+
     testImplementation("io.kotest:kotest-framework-engine:6.0.4")
     testImplementation("io.kotest:kotest-runner-junit5:6.0.4")
 
