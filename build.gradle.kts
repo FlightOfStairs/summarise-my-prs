@@ -47,7 +47,7 @@ java {
 }
 
 application {
-    mainClass = "org.example.AppKt"
+    mainClass = "org.flightofstairs.summariseMyPrs.MainKt"
 }
 
 tasks.withType<Test>().configureEach {
