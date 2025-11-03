@@ -4,6 +4,7 @@ import io.github.cdimascio.dotenv.dotenv
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.header
@@ -15,12 +16,17 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlin.time.Duration.Companion.minutes
 
 fun openAiClient(secretKey: String) = HttpClient(CIO) {
     expectSuccess = true
 
     install(ContentNegotiation) {
         json(Json { ignoreUnknownKeys = true })
+    }
+
+    install(HttpTimeout) {
+        requestTimeoutMillis = 5.minutes.inWholeMilliseconds
     }
 
     defaultRequest {
@@ -44,7 +50,6 @@ data class ResponseContent(val type: String, val text: String? = null)
 
 suspend fun main() {
     val client = openAiClient(dotenv()["OPENAI_SECRET_KEY"])
-
 
     val response = client.post("/v1/responses") {
         setBody(ResponseRequest("gpt-4.1-mini", "Test prompt say hello"))
